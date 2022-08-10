@@ -1,0 +1,92 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto Slab', serif;
+}
+.title-container h1 {
+    font-size: 24px;
+}
+
+.title-container h3{
+    color: #787878;
+    font-size: 18px;
+}
+.nav-back-color{
+    background-color: #BA7FFF;
+}
+.greeting{
+    cursor: pointer;
+}
+.greeting:hover{
+    color: #a8d5fa;
+    transition: 0.4s;
+}
+.greeting span{
+    padding-top: 4px;
+}
+.greeting i{
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.image-cropper {
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  
+img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
+.b-c{
+    border-radius: 3px;
+    border-style: solid;
+    border-color: rgb(224, 224, 224);
+}
+.user-data{
+    width: 70%;
+}
+.profile{
+    width: 70%;
+}
+.user-mgment{
+    width: 25%;
+}
+.logout-btn{
+    padding:5px 25px;
+}
+i.bi-box-arrow-right{
+    font-size: 20px;
+}
+span.user-permission{
+    font-size: 14px;
+    font-weight: 900;
+}
+span.permission{
+    font-size: 14px;
+    font-weight: normal;
+    color: #858585;
+}
+span.reg-date{
+    font-size: 12px;
+    font-weight: normal;
+    color: #a4a4a4;
+}
+.profile-main{
+    width: 50%;
+}
+.myimg img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius: 5px;
+}
+.user-form{
+    margin-top: 8%;
+}

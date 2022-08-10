@@ -1,0 +1,410 @@
+<div class="container-fluid nav-back-color">
+<nav class="navbar navbar-expand-lg nav-back-color">
+    <div class="container">
+        <div class="d-flex flex-row">
+            <a class="navbar-brand" href="#">UMS Portal</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" >
+                            Users
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class=" m-0 d-flex align-items-center justify-content-between greeting">
+                <span>Welcome, {{loggedUser?.firstName}}</span>
+                <i class="bi bi-person-circle"></i>
+        </div>
+    </div>
+    </nav>
+</div>
+
+<div class="container d-flex text-center flex-column title-container p-3 mt-5">
+<h1>User Management Portal</h1>
+<h3>Users</h3>
+</div>
+
+<div class="container content-block">
+<div class="d-flex justify-content-around">
+<div class="container d-flex justify-content-around">
+    <div class="container d-flex flex-row">
+        <div class="p-2">
+            <h3>Users</h3>
+        </div>
+        <div class="p-2 block-title-description">
+            <h3>List of registered users</h3>
+        </div>
+        <div class="p-2 block-title-description">
+            <div *ngIf="canCreate" class="add-user-btn btn btn-primary m-0 d-flex align-items-center justify-content-between greeting"
+            data-toggle="modal" data-target=".add-user-modal">
+                <i class="bi bi-person-plus-fill"></i>
+                <span (click)="initEmptyUser()">Add user</span>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex flex-row justify-content-end">
+        <div>
+            <div class="dropdown p-2">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{filterLabel}}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item pointer" (click)="filterUsers(userFilter.ALL)" >All</a>
+                    <a class="dropdown-item pointer" (click)="filterUsers(userFilter.ACTIVE)">Active</a>
+                    <a class="dropdown-item pointer" (click)="filterUsers(userFilter.INACTIVE)">Inactive</a>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="input-group p-2">
+                <div class="form-outline">
+                <input #search (keyup)="searchUser(search.value)" id="search-input" placeholder="Search..." type="search" id="form1" class="form-control"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<hr>
+<div class="container user-block text-center">
+<table class="table ">
+    <thead>
+        <tr>
+        <th scope="col">Photo</th>  
+        <th scope="col">User ID</th>
+        <th scope="col">First name</th>
+        <th scope="col">Last name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Username</th>
+        <th scope="col">Status</th>
+        <th *ngIf="canUpdate || canDelete" scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let user of users">
+        <tr (click)="getUserByClickEvent(user, user.id!)">
+            <td>
+                <div class="image-cropper">
+                    <img [src]="images.get(user.id!)">
+                </div>
+            </td>  
+            <th scope="row">{{user.id}}</th>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.username}}</td>
+            <td >
+                <a [ngClass]="user.status === 'ACTIVE' ? 'active-status' : 'inactive-status' " >{{user.status}}</a>
+            </td>
+            <td *ngIf="canUpdate || canDelete || canRead">
+                <div class="container d-flex flex-row justify-content-center">
+                    <div *ngIf="canDelete" class="delete-btn" data-toggle="modal" data-target=".delete-user-modal">
+                        <a (click)="openModal(user, userAction.DELETE)"><i class="bi bi-trash"></i></a>
+                    </div>
+                    <div *ngIf="canUpdate" class="edit-btn" data-toggle="modal" data-target=".edit-user-modal">
+                        <a (click)="openModal(user, userAction.UPDATE)"><i class="bi bi-pencil-square"></i></a>
+                    </div>
+                    <div *ngIf="canRead" class="info-btn" data-toggle="modal" data-target=".user-info-modal">
+                        <a><i class="bi bi-info-circle-fill"></i></a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+    </table> 
+</div>
+</div>
+
+
+
+
+<!-- Edit User Modal form -->
+<div class="modal fade edit-user-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
+        <div class="close-btn" data-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x"></i>
+        </div>
+        </div>
+        <div class="modal-body">
+        <form #editForm="ngForm">
+            <div class="container d-flex flex-column">
+                <div class="container d-flex justify-content-between pb-2">
+                    <div class="form-group">
+                        <label for="editFirstName">First name</label>
+                        <input ngModel="{{userToBeUpdated?.firstName}}" name="firstName" class="form-control" id="editFirstName" required>
+                        <input type="hidden" ngModel="{{userToBeUpdated?.id}}" name="id" class="form-control" >
+                        <input type="hidden" ngModel="{{userToBeUpdated?.password}}" name="password" class="form-control"  >
+                        <input type="hidden" ngModel="{{userToBeUpdated?.authAttempts}}" name="authAttempts" class="form-control"  >
+                        <input type="hidden" ngModel="{{userToBeUpdated?.role}}" name="role" class="form-control" >
+                        <input type="hidden" ngModel="{{userToBeUpdated?.accountStatus}}" name="accountStatus" class="form-control" >
+                        <input type="hidden" ngModel="{{userToBeUpdated?.profileImage}}" name="profileImage" class="form-control" >
+                    </div>
+                    <div class="form-group">
+                        <label for="editLastName">Last name</label>
+                        <input ngModel="{{userToBeUpdated?.lastName}}" name="lastName" class="form-control" id="editLastName" required>
+                    </div>
+                </div>
+                <div class="container d-flex justify-content-between pb-2">
+                    <div class="form-group">
+                        <label for="editUsername">Username</label>
+                        <input ngModel="{{userToBeUpdated?.username}}" name="username" class="form-control" id="editUsername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input ngModel="{{userToBeUpdated?.email}}" name="email"  class="form-control" id="editEmail" required>
+                    </div>
+                </div>
+                <div class="container d-flex pb-2">
+                    <div class="d-flex flex-column">
+                        <label for="editProfileImage"  class="form-label">Upload profile image</label>
+                        <input #imageInput type="file"  accept="image/*" (change)="processFile(userToBeUpdated! ,imageInput)" class="form-control" id="editProfileImage" />
+                    </div>
+                </div>
+                <div class="container d-flex pb-2">
+                    <div class="d-flex flex-column">
+                        <label for="editRole">Role</label>
+                        <div class="dropdown show" id="editRole">
+                            <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{userToBeUpdated?.role?.name}}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" (click)="chooseRole(userToBeUpdated!, appRole.USER)">{{appRole.USER}}</a>
+                                <a class="dropdown-item" (click)="chooseRole(userToBeUpdated!, appRole.MANAGER)">{{appRole.MANAGER}}</a>
+                                <a class="dropdown-item" (click)="chooseRole(userToBeUpdated!, appRole.ADMIN)">{{appRole.ADMIN}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    <div class="form-check">
+                        <input [checked]="userToBeUpdated?.status === 'ACTIVE' " (change)="getSelectedStatus(userToBeUpdated!, $event)" class="form-check-input" name="status" type="radio" name="user-status" id="editActive" value="ACTIVE">
+                        <label class="form-check-label" for="editActive">
+                            Active
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        <input [checked]="userToBeUpdated?.status === 'INACTIVE' " (change)="getSelectedStatus(userToBeUpdated!, $event)" class="form-check-input" name="status" type="radio" name="user-status" id="editInactive" value="INACTIVE">
+                        <label class="form-check-label" for="editInactive">
+                            Inactive
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+        <button type="button" id="update-user" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" (click)="updateUser(editForm.value)" [disabled]="editForm.invalid" class="btn btn-primary">Save changes</button>
+        </div>
+</div>
+</div>
+</div>
+
+
+
+<!-- Add User Modal form -->
+<div class="modal fade add-user-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add user</h5>
+            <div class="close-btn" data-dismiss="modal" aria-label="Close">
+                <i class="bi bi-x"></i>
+            </div>
+            </div>
+            <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="addUser(addForm.value)">
+                <div class="container d-flex flex-column">
+                    <div class="container d-flex justify-content-between pb-2">
+                        <div class="form-group">
+                            <label for="firstName">First name</label>
+                            <input class="form-control" name="firstName" id="firstName" ngModel required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" name="lastName" ngModel  id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="container d-flex justify-content-between pb-2">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input class="form-control" name="username" id="username" ngModel required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" name="email" class="form-control" ngModel id="email" required>
+                        </div>
+                    </div>
+                    <div class="container d-flex pb-2">
+                        <div class="d-flex flex-column">
+                            <label for="newFile" class="form-label">Upload profile image</label>
+                            <input #newImage type="file" (change)="processFile(userToBeCreated!, newImage)" class="form-control" id="newFile" />
+                        </div>
+                    </div>
+                    <div class="container d-flex pb-2">
+                        <div class="d-flex flex-column">
+                            <label for="role">Role</label>
+                            <div class="dropdown show" id="role">
+                                <a class="btn btn-info dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <p *ngIf="userToBeCreated?.role === undefined" style="display: inline;">{{appRole.USER}}</p>
+                                    <p *ngIf="userToBeCreated !== undefined" style="display: inline;">{{userToBeCreated.role?.name}}</p>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" (click)="chooseRole(userToBeCreated!, appRole.USER)">{{appRole.USER}}</a>
+                                    <a class="dropdown-item" (click)="chooseRole(userToBeCreated!, appRole.MANAGER)">{{appRole.MANAGER}}</a>
+                                    <a class="dropdown-item" (click)="chooseRole(userToBeCreated!, appRole.ADMIN)">{{appRole.ADMIN}}</a>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" (click)="getSelectedStatus(userToBeCreated!, $event)" type="radio" name="status" id="flexRadioDefault1" value="ACTIVE" required>
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" (click)="getSelectedStatus(userToBeCreated!, $event)" type="radio" value="INACTIVE" name="status" id="flexRadioDefault2" required>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Inactive
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" id="save-user-btn" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="button" (click)="addUser(addForm.value)" [disabled]="addForm.invalid" class="btn btn-primary">Save user</button>
+            </div>
+    </div>
+</div>
+</div>
+
+<!-- User Info Modal form -->
+<div [ngClass]="canRead ? 'user-info-modal' : '' " class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{choosedUser?.firstName}} {{choosedUser?.lastName}}</h5>
+            <div class="close-btn" data-dismiss="modal" aria-label="Close">
+                <i class="bi bi-x"></i>
+            </div>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="user-info-top-main d-flex flex-row justify-content-between">
+                <div class="user-info-top-left d-flex flex-row justify-content-between">
+                    <div class="user-info-img">
+                        <img [src]="images.get(choosedUserIndex!)">
+                    </div>
+                    <div class="user-info-primary d-flex flex-column">
+                        <span class="profile-name">{{choosedUser?.firstName}} {{choosedUser?.lastName}}</span>
+                        <span class="profile-username permission">{{choosedUser?.username}}</span>
+                        <div class="d-flex flex-row">
+                            <span class="profile-username permission">Status: </span>
+                            <span [ngClass]="choosedUser?.status === 'ACTIVE' ? 'active' : 'inactive'" class="profile-status permission">{{choosedUser?.status}}</span>
+                        </div>
+                        <div class="reg-date ">Last Login: Jun 3, 2020, 10:22:12 AM</div>
+                    </div>
+                </div>
+                <div class="user-info-top-right">
+                    <div class="reg-date">Joined June 1, 2020</div>
+                </div>
+            </div>
+            <div class="user-info-bottom mt-5">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>{{choosedUser?.id}}</span>
+                                    <i class="bi bi-person-badge-fill"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>{{choosedUser?.email}}</span>
+                                    <i class="bi bi-envelope"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>{{choosedUser?.role?.name}}</span>
+                                    <i class="bi bi-shield"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>Jun 3, 2020, 10:22</span>
+                                    <i class="bi bi-box-arrow-right"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="choosedUser?.accountStatus === 'LOCKED'">
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>Account Locked</span>
+                                    <i style="color: red;" class="bi bi-lock-fill"></i>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="choosedUser?.accountStatus === 'NON_LOCKED'">
+                            <td>
+                                <div class="bottom-info-row d-flex flex-row justify-content-between">
+                                    <span>Account Unlocked</span>
+                                    <i style="color: green;" class="bi bi-unlock-fill"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!--User Delete Modal form-->
+<div class="modal fade delete-user-modal" id="deleteUserModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteUserModalLabel">Delete User</h5>
+            <div class="close-btn" data-dismiss="modal" aria-label="Close">
+                <i class="bi bi-x"></i>
+            </div>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to delete user ({{userToBeDeleted?.firstName}} {{userToBeDeleted?.lastName}})?</p>
+        </div>
+        <form #deleteForm="ngForm" (ngSubmit)="deleteUser(userToBeDeleted!.id!)">
+          <div class="modal-footer">
+            <button type="button" id="delete-user" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+  

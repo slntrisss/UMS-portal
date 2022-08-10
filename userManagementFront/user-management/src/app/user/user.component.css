@@ -1,0 +1,179 @@
+.title-container h1 {
+    font-size: 24px;
+}
+
+.title-container h3{
+    color: #787878;
+    font-size: 18px;
+}
+/* Navbar */
+.nav-back-color{
+    background-color: #BA7FFF;
+}
+.greeting{
+    cursor: pointer;
+}
+.greeting:hover{
+    color: #a8d5fa;
+    transition: 0.4s;
+}
+.greeting span{
+    padding-top: 4px;
+}
+.greeting i{
+    font-size: 30px;
+    margin-left: 5px;
+}
+/* Content Block */
+.content-block{
+    background-color: #F6F6F6;
+    border-radius: 5px;
+    padding: 1%;
+}
+
+.image-cropper {
+    margin: 0 auto;
+    width: 50px;
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  
+img {
+    display: inline;
+    margin: 0 auto;
+    height: 100%;
+    width: auto;
+}
+
+
+.block-title-description h3{
+    font-size: 14px;
+    color: #787878;
+    padding-top: 10%;
+}
+.user-block th{
+    font-weight: bolder;
+}
+.user-block td{
+    font-weight: 300;
+}
+
+a.inactive-status{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 1000;
+    padding: 1px 3px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: red;
+}
+a.active-status{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 1000;
+    padding: 1px 3px;
+    border-radius: 3px;
+    color: #fff;
+    background-color: green;
+}
+
+.delete-btn{
+    background-color: red;
+    margin-right: 5px;
+}
+.edit-btn, .delete-btn, .info-btn{
+    cursor: pointer;
+    padding: 1px 8px;
+    border-radius: 3px;
+    color: #fff;
+}
+.edit-btn{
+    background-color: green;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.info-btn{
+    background-color: blue;
+    margin-left: 5px;
+}
+
+.add-user-btn{
+    font-size: 14px;
+    padding: 3px 10px;
+}
+.add-user-btn i{
+    font-size: 18px;
+    font-weight: 500;
+    padding-right: 5px;
+    padding-bottom: 5px;
+}
+/* Modal */
+.close-btn:hover{
+    cursor: pointer;
+}
+.close-btn i{
+    font-size: 30px;
+}
+.pointer{
+    cursor: pointer;
+}
+.hidden{
+    display: none;
+}
+.user-info-img img{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    border-radius: 5px;
+}
+span.user-permission{
+    font-size: 12px;
+    font-weight: 900;
+}
+span.permission{
+    font-size: 12px;
+    font-weight: normal;
+    color: #858585;
+}
+div.reg-date{
+    font-size: 10px;
+    font-weight: normal;
+    color: #a4a4a4;
+    word-wrap: break-word;
+}
+.user-info-top-left{
+    width: 70%;
+}
+.user-info-top-right{
+    width: 20%;
+}
+span.active, span.inactive{
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 3px;
+    border-radius: 3px;
+    color: #fff;
+}
+span.active{
+    background-color: green;
+}
+span.inactive{
+    background-color: red;
+}
+.bottom-info-row span{
+    font-size: 14px;
+    color: #787878;
+}
+.user-info-img{
+    min-width: 50%;
+}
+.user-info-primary{
+    min-width: 40%;
+}
+.b-c{
+    border-style: solid;
+    border-color: #BA7FFF;
+}

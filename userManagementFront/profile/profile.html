@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="profile.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid nav-back-color">
+        <nav class="navbar navbar-expand-lg nav-back-color">
+            <div class="container">
+                <div class="d-flex flex-row">
+                    <a class="navbar-brand" href="#">UMS Portal</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" >
+                                    Users
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class=" m-0 d-flex align-items-center justify-content-between greeting">
+                        <span>Welcome, Rick</span>
+                        <i class="bi bi-person-circle"></i>
+                </div>
+            </div>
+          </nav>
+    </div>
+
+    <div class="container d-flex text-center flex-column title-container p-3 mt-5">
+        <h1>User Management Portal</h1>
+        <h3>Profile</h3>
+    </div>
+
+    <div style="padding-bottom:5%;">
+        <div class="container user-data d-flex justify-content-between">
+            <div class="profile container d-flex flex-column justify-content-around b-c p-3">
+                <div class="d-flex justify-content-between">
+                    <div class="profile-main d-flex flex-row justify-content-around">
+                        <div class="myimg">
+                            <img src="/Users/raiymbekmerekeyev/Desktop/tom.png">
+                        </div>
+                        <div>
+                            <div class="profile-main-data d-flex flex-column">
+                                <span class="profile-name">Rick Sanchez</span>
+                                <span class="profile-username permission">rick</span>
+                                <span class="reg-date">Last Login: Jun 3, 2020, 10:22</span>
+                                <div class="file-upload">
+                                    <input type="file" style="display: none;" name="file" id="imageFile">
+                                    <button type="file" class="btn btn-primary logout-btn mt-3">
+                                        <i class="bi bi-camera-fill"></i> Change photo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="reg-date">Joined June 1, 2020</span>
+                    </div>
+                </div>
+                <div class="user-form p-3">
+                    <form>
+                        <div class="container d-flex flex-column">
+                            <div class="container d-flex justify-content-between pb-2">
+                                <div class="form-group">
+                                    <label for="firstName">First name</label>
+                                    <input class="form-control" id="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last name</label>
+                                    <input type="password" class="form-control" id="lastName" required>
+                                </div>
+                            </div>
+                            <div class="container d-flex justify-content-between pb-2">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input class="form-control" id="username" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="password" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="container d-flex pb-2">
+                                <div class="d-flex flex-column">
+                                    <label for="role">Role</label>
+                                    <div class="dropdown show" id="role">
+                                        <a class="btn btn-info dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        MANAGER
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">MANAGER</a>
+                                        <a class="dropdown-item" href="#">USER</a>
+                                        <a class="dropdown-item" href="#">ADMIN</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                      Active
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                      Inactive
+                                    </label>
+                                  </div>
+                            </div>
+                            <div class="change-btn d-flex justify-content-end">
+                                <button class="btn btn-primary">
+                                    Save changes
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="user-mgment d-flex flex-column ml-3">
+                <div class="logout-btn-block text-center b-c p-4 ml-2">
+                    <button type="button" class="btn btn-secondary logout-btn">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </div>
+                <div class="user-auth-block p-4 b-c mt-3">
+                    <div class="user-auth d-flex flex-column">
+                        <span class="user-permission">User Permissions</span>
+                        <span class="permission">user:read</span>
+                        <span class="permission">user:create</span>
+                        <span class="permission">user:delete</span>
+                        <span class="permission">user:update</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>
